@@ -1,10 +1,11 @@
 # Cisco Cheat Sheet v.01
 ---
 ## Table of Contents
-- **[Grundconfig](#)**
-- **[Shows](#)**
-- **[Router Config](#)**
-- **[Switch Config](#)**
+- **[Grundconfig](#grundconfig)**
+- **[Shows](#shows)**
+- **[Router Config](#router-config)**
+- **[Switch Config](#switch-config)**
+- **[Same Config](#same-config)**
 ---
 ### Grundconfig
 #### Hostname  
@@ -63,7 +64,7 @@
 ```
 #### ACL Info
 ```
-#show access-lists
+#show access-list
 ```
 #### Mac Address Table
 ```
@@ -88,7 +89,7 @@ config#interfacce [Outside Interface]
 (config-if)#ip nat outside
 (config-if)#no shutdown
 ```
-#### NAT Outside Interface bei RIP
+#### NAT Outside Interface bei RIP und OSBF
 ```
 config#interfacce [Outside Interface]
 (config-if)#ip nat outside
@@ -135,18 +136,141 @@ config#interfacce [Outside Interface]
 (config)#ip route 0.0.0.0 0.0.0.0 [Next Hop]
 ```
 ---
-### Rip Routing
-#### Rip enable
+### RIP Routing
+#### RIP enable
 ```
 (config)#router rip
 (config-router)#version 2
 (config-router)#no auto-summary
 ```
+#### NW zu RIP hinzufügen
+```
+(config)#router rip
+(config-router)#network 10.45.10.0 … NW Adresse
+```
 #### Default Routen weitergeben
 ---
-
-
-<!-- ## Switch-Config
+```
+(config)#router rip
+(config-router)#default-information originate 
+```
 ---
-### VLAN -->
+### OSBF Routing
+#### OSBF enable
+```
+(config)#router ospf 1 oder (config)#router ospfv3
+(config-router)#no auto-summary
+```
+#### Default Routen weitergeben
+---
+```
+(config)#router osbf 1
+(config-router)#default-information originate 
+```
+#### NW zu OSBF hinzufügen
+```
+(config-router)#network NetzwerkIP Wildcardmask area [Zahl] z.B
+(config-router)#network 192.168.10.0 0.0.0.255 area 0
+```
+---
+### Access Listen - Standard
+#### Access List erstellen
+```
+(config)#access-list {List-ID} remark {Kommentar}
+(config)#access-list {List-ID} [permit | deny] {IP} {Wildcard}
+```
+#### Access List Einträge hinzufügen
+```
+(config)#ip access-list standard {ACL-Name}
+(config-std-nacl)#{Eintrag ID} [permit | deny] {IP-Adresse} {Wildcard}
+```
+#### Access Lists Matches clearen
+```
+#clear access-list counter {ACL-Name}
+```
+#### Access Lists Interface zuweisen
+```
+(config-if)#ip access-group {access-list-numer | access-list-name} {in | out}3
+```
+---
+### VLAN
+#### Subinterfaces
+```
+(config)#interface gigabitEthernet 0/1.50
+(config-subif)#encapsulation dot1Q 50 
+(config-subif)#ip address [IP] [Subnet]
+```
+---
 
+## Switch-Config
+---
+### VLAN
+#### VLAN erstellen
+```
+(config)#vlan [VLAN-ID]
+(config-vlan)#name [VLAN-Name]
+```
+#### Ein VLAN löschen
+```
+(config)#no vlan [VLAN-ID]
+```
+#### Alles VLANs löschen
+```
+(config)#delete flash:vlan.dat
+```
+#### VLAN Interface(Access) zusweisen
+```
+(config)#interface [InterfaceID]
+(config-if)#switchport mode access
+(config-if)#switchport access vlan [VLAN-ID]
+```
+#### VLAN Interface(Trunk) zuweisen
+```
+(config)#interface [InterfaceID]
+(config-if)#switchport mode trunk
+(config-if)#switchport trunk encapsulation dot1q
+(config-if)#switchport trunk native vlan [VLAN-ID]
+(config-if)#switchport trunk allowed vlan [VLAN-List] //Switchporttrunk allowed vlan 10,20,30,99
+```
+---
+### STP Spanning-Tree
+#### Interface Spanning-Tree
+```
+(config-if)#spanning-tree portfast mode
+```
+#### Spanning-Tree aktivieren
+```
+(config)#spanning-tree vlan vlan-id
+```
+#### Spanning-Tree deaktivieren
+```
+(config)#no spanning-tree vlan vlan-id
+```
+#### Root Guard
+```
+(config)#interface fastEthernet 0/1
+(config-if)#spanning-tree rootguard
+```
+#### BPDU Guard
+```
+(config-if)#spanning-tree portfast
+(config)#spanning-tree portfast bpduguard
+```
+#### BPDU Filtering 1 Port
+```
+(config-if)#spanning-tree bpdufilter enable
+```
+#### BPDU Filtering all Ports
+```
+(config)#spanning-tree portfast bpdufilter default
+```
+---
+### Same Config
+#### SNMP Read Only
+```
+(config)#snmp-server community public RO
+```
+#### SNMP Write
+```
+(config)#snmp-server community private RW 
+```
