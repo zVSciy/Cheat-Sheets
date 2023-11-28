@@ -1,4 +1,4 @@
-# Cisco Cheat Sheet v.01
+# Cisco Cheat Sheet v1.01
 ---
 ## Table of Contents
 - **[Grundconfig](#grundconfig)**
