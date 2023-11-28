@@ -1,4 +1,4 @@
-# Linux Cheat Sheet
+# Linux Cheat Sheet v1.01
 ## Table of Contents
 - **[Shortcuts](#shortcuts)** 
 - **[Navigation](#navigation)**
