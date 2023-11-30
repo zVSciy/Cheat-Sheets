@@ -8,9 +8,9 @@
 - **[File-Permission](#file-permission)**
 - **[User and Group management](#user-and-group-management)**
 - **[Archive and compress Data](#archive-and-compress-data)**
-- **[Extract, sort and filter Data]()**
-- **[Mounting, Formatting and Partitioning]()**
-- **[Process Management]()**
+- **[Extract, sort and filter Data](#extract-sort-and-filter-data)**
+- **[Mounting, Formatting and Partitioning](#mounting-formatting-and-partitioning)**
+- **[Process Management](#process-management)**
 ---
 ### Shortcuts
 ```
@@ -407,125 +407,124 @@ sort -k <column_number> <file>          | sort based on a specific column
 ```
 #### Filter data
 ```
-grep '<pattern>' <file>                | search for a pattern in a file
+grep '<pattern>' <file>                 | search for a pattern in a file
 ```
 ```
-grep -i '<pattern>' <file>             | case-insensitive pattern search
+grep -i '<pattern>' <file>              | case-insensitive pattern search
 ```
 ```
-grep -v '<pattern>' <file>             | display lines not containing the pattern
+grep -v '<pattern>' <file>              | display lines not containing the pattern
 ```
 ```
-awk '/<pattern>/' <file>               | pattern scanning and processing language
+awk '/<pattern>/' <file>                | pattern scanning and processing language
 ```
 ```
-sed -n '/<pattern>/p' <file>           | stream editor for filtering and transforming text
+sed -n '/<pattern>/p' <file>            | stream editor for filtering and transforming text
 ```
 ```
-cut -f <column_number> <file>          | remove sections from each line of a file
+cut -f <column_number> <file>           | remove sections from each line of a file
 ```
 ---
 ### Mounting, Formatting and Partitioning
 #### Mounting
 ```
-mount /dev/sdX1 /mnt                 | mount the partition /dev/sdX1 to the /mnt directory
+mount /dev/sdX1 /mnt                    | mount the partition /dev/sdX1 to the /mnt directory
 ```
 ```
-mount -t ext4 /dev/sdX1 /mnt         | mount with a specific file system type (ext4 in this case)
+mount -t ext4 /dev/sdX1 /mnt            | mount with a specific file system type (ext4 in this case)
 ```
 ```
-umount /mnt                          | unmount the file system mounted on /mnt
+umount /mnt                             | unmount the file system mounted on /mnt
 ```
 #### Formatting
 ```
-mkfs.ext4 /dev/sdX1                  | format the partition /dev/sdX1 as ext4
+mkfs.ext4 /dev/sdX1                     | format the partition /dev/sdX1 as ext4
 ```
 ```
-mkfs.ntfs /dev/sdX1                  | format the partition /dev/sdX1 as NTFS
+mkfs.ntfs /dev/sdX1                     | format the partition /dev/sdX1 as NTFS
 ```
 ```
-mkswap /dev/sdX1                     | create a swap area on /dev/sdX1
+mkswap /dev/sdX1                        | create a swap area on /dev/sdX1
 ```
 #### Partitioning
 ```
-fdisk /dev/sdX                       | start the fdisk utility for partitioning /dev/sdX
+fdisk /dev/sdX                          | start the fdisk utility for partitioning /dev/sdX
 ```
 ```
-gparted                              | open the GParted graphical partition editor
+gparted                                 | open the GParted graphical partition editor
 ```
 ```
-parted /dev/sdX                      | command-line partitioning tool
+parted /dev/sdX                         | command-line partitioning tool
 ```
 ```
-gdisk /dev/sdX                       | GPT partitioning tool for GUID Partition Table
+gdisk /dev/sdX                          | GPT partitioning tool for GUID Partition Table
 ```
 ```
-lsblk                                | list information about block devices, including partitions
+lsblk                                   | list information about block devices, including partitions
 ```
 ---
 Give the most important Linux commands of Process Management in stile like that:
 ### Process Management
 #### List Running Processes
 ```
-ps                                   | display information about active processes  
+ps                                      | display information about active processes  
 ```
 ```
-ps aux                               | detailed list of all processes
+ps aux                                  | detailed list of all processes
 ```
 ```
-top                                  | dynamic real-time view of running processes
+top                                     | dynamic real-time view of running processes
 ```
 ```
-htop                                 | interactive process viewer
+htop                                    | interactive process viewer
 ```
 #### Kill or Signal Processes
 ```
-kill <PID>                           | send a signal to terminate a process with a specific PID  
+kill <PID>                              | send a signal to terminate a process with a specific PID  
 ```
 ```
-killall <process_name>               | send a signal to terminate all processes with a specific name
+killall <process_name>                  | send a signal to terminate all processes with a specific name
 
 ```
 ```
-pkill <process_name>                 | signal processes based on name
+pkill <process_name>                    | signal processes based on name
 ```
 ```
-kill -9 <PID>                        | forcefully terminate a process
+kill -9 <PID>                           | forcefully terminate a process
 ```
 #### Background and Foreground
 ```
-<command> &                          | run a command in the background
+<command> &                             | run a command in the background
 ```
 ```
-bg                                  | list stopped or background jobs
+bg                                      | list stopped or background jobs
 ```
 ```
-fg                                  | bring a background job to the foreground
+fg                                      | bring a background job to the foreground
 ```
 #### Job Control
 ```
-jobs                                | display a list of jobs 
+jobs                                    | display a list of jobs 
 ```
 ```
-bg %<job_number>                    | run a stopped job in the background
+bg %<job_number>                        | run a stopped job in the background
 ```
 ```
-fg %<job_number>                    | bring a job to the foreground
+fg %<job_number>                        | bring a job to the foreground
 ```
 ```
-Ctrl + Z                            | suspend a foreground process
+Ctrl + Z                                | suspend a foreground process
 ```
 #### System Resource Monitoring
 ```
-free                                | display amount of free and used memory  
+free                                    | display amount of free and used memory  
 ```
 ```
-uptime                              | show how long the system has been running
+uptime                                  | show how long the system has been running
 ```
 ```
-vmstat                              | virtual memory statistics
+vmstat                                  | virtual memory statistics
 ```
 ```
-iostat                              | report CPU statistics and input/output statistics for devices and partitions
+iostat                                  | report CPU statistics and input/output statistics for devices and partitions
 ```
----
