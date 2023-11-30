@@ -381,3 +381,47 @@ gunzip <archive>                        | unzip a compressed archive
 gunzip -r <archive>                     | unzip a compressed archive recursively
 ```
 ---
+### Extract, sort and filter Data
+#### Extract data
+```
+head <textfile>                         | print the first 10 lines     
+```
+```
+head -<number> <textfile>               | print a specific amount from the top
+```
+```
+tail <textfile>                         | print the last 10 lines
+```
+```
+tail -<number> <textfile>               | print a specific amount from the bottom
+```
+#### Sort Data
+```
+sort <file>                             | sort lines of text files
+```
+```
+sort -r <file>                          | reverse the order while sorting
+```
+```
+sort -k <column_number> <file>          | sort based on a specific column
+```
+#### Filter data
+```
+grep '<pattern>' <file>                | search for a pattern in a file
+```
+```
+grep -i '<pattern>' <file>             | case-insensitive pattern search
+```
+```
+grep -v '<pattern>' <file>             | display lines not containing the pattern
+```
+```
+awk '/<pattern>/' <file>               | pattern scanning and processing language
+```
+```
+sed -n '/<pattern>/p' <file>           | stream editor for filtering and transforming text
+```
+```
+cut -f <column_number> <file>          | remove sections from each line of a file
+```
+---
