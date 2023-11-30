@@ -1,4 +1,4 @@
-# Cisco Cheat Sheet v1.01
+# Cisco Cheat Sheet v1.02
 ---
 ## Table of Contents
 - **[Grundconfig](#grundconfig)**
@@ -72,6 +72,22 @@
     Count … Zeigt anzahl der Einträge AN
     VLAN … Zeigt die MACS von einen VLAN an
 #show access-lists … Zeigt die ACLs an
+```
+#### Port-channel
+```console
+#show interface port-channel
+```
+#### Ether-channel summary
+```console
+#show etherchannel summary
+```
+#### Etherchannel port-channel
+```console
+#show etherchannel port-channel
+```
+#### show interface etherchannel
+```console
+#show interface etherchannel
 ```
 ---
 ## Router-Config
