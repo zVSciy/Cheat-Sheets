@@ -281,7 +281,7 @@ config#interfacce [Outside Interface]
 (config)#spanning-tree portfast bpdufilter default
 ```
 ---
-### Same Config
+### Rputer & Switch Config
 #### SNMP Read Only
 ```console
 (config)#snmp-server community public RO
