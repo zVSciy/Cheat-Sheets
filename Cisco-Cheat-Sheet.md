@@ -281,6 +281,12 @@ config#interfacce [Outside Interface]
 (config)#spanning-tree portfast bpdufilter default
 ```
 ---
+#### Port-Security
+```
+
+```
+
+---
 ### Router & Switch Config
 #### SNMP Read Only
 ```console
