@@ -208,6 +208,28 @@ config#interfacce [Outside Interface]
 ```console
 (config-if)#ip access-group {access-list-numer | access-list-name} {in | out}3
 ```
+
+
+---
+### Access Listen - Extended
+
+### Access List erstellen und Einträge hinzufügen
+```
+(config)#ip access-list extended {ACL-Name}
+(config-ext-nacl)#{Eintrag ID} [permit | deny] {Protokoll} {Quell-IP} {Wildcard} {Ziel-IP} {Wildcard} [eq {Port}]
+```
+### Access List auf Interface zuweisen
+```
+Router(config)#int {Interface}
+Router(config-if)#ip access-group {ACL-Name} {in | out}
+```
+### Acces List löschen
+```
+no ip access-list extended {ACL-Name}
+```
+
+---
+
 ---
 ### VLAN
 #### Subinterfaces
