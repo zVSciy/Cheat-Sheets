@@ -214,17 +214,17 @@ config#interfacce [Outside Interface]
 ### Access Listen - Extended
 
 ### Access List erstellen und Einträge hinzufügen
-```
+```console
 (config)#ip access-list extended {ACL-Name}
 (config-ext-nacl)#{Eintrag ID} [permit | deny] {Protokoll} {Quell-IP} {Wildcard} {Ziel-IP} {Wildcard} [eq {Port}]
 ```
 ### Access List auf Interface zuweisen
-```
+```console
 Router(config)#int {Interface}
 Router(config-if)#ip access-group {ACL-Name} {in | out}
 ```
 ### Acces List löschen
-```
+```console
 no ip access-list extended {ACL-Name}
 ```
 
