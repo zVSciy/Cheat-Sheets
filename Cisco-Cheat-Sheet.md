@@ -194,6 +194,9 @@ config#interfacce [Outside Interface]
 ```console
 (config)#access-list {List-ID} remark {Kommentar}
 (config)#access-list {List-ID} [permit | deny] {IP} {Wildcard}
+#Um alle zu erlauben:
+permit 0.0.0.0 255.255.255.255 
+
 ```
 #### Access List Einträge hinzufügen
 ```console
