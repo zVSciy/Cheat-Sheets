@@ -171,8 +171,8 @@ config#interfacce [Outside Interface]
 (config-router)#default-information originate 
 ```
 ---
-### OSBF Routing
-#### OSBF enable
+### OSPF Routing
+#### OSPF enable
 ```console
 (config)#router ospf 1 oder (config)#router ospfv3
 (config-router)#no auto-summary
@@ -180,10 +180,10 @@ config#interfacce [Outside Interface]
 #### Default Routen weitergeben
 ---
 ```console
-(config)#router osbf 1
+(config)#router ospf 1
 (config-router)#default-information originate 
 ```
-#### NW zu OSBF hinzufügen
+#### NW zu OSPF hinzufügen
 ```console
 (config-router)#network NetzwerkIP Wildcardmask area [Zahl] z.B
 (config-router)#network 192.168.10.0 0.0.0.255 area 0
