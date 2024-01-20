@@ -89,6 +89,10 @@
 ```console
 #show interface etherchannel
 ```
+#### VTP
+```console
+#show vtp status
+```
 ---
 ## Router-Config
 ---
@@ -230,9 +234,6 @@ Router(config-if)#ip access-group {ACL-Name} {in | out}
 ```console
 no ip access-list extended {ACL-Name}
 ```
-
----
-
 ---
 ### VLAN
 #### Subinterfaces
@@ -242,6 +243,16 @@ no ip access-list extended {ACL-Name}
 (config-subif)#ip address [IP] [Subnet]
 ```
 ---
+### Etherchannel
+#### Portchannel
+```console
+(config)#port-channel load-balance [dst/src/dst-src]-ip
+
+(config)#interface range {Interface} - {Interface}
+(config)#channel-protocol {Protocol} lacp
+(config)#switchport mode {Mode}
+(config)#channel-group {Gruppe} mode active
+```
 
 ## Switch-Config
 ---
@@ -310,7 +321,15 @@ no ip access-list extended {ACL-Name}
 ```
 
 ```
-
+---
+### VTP
+#### VTP Modes
+```console
+(config)#vtp domain {Domain-name}
+(config)#vtp mode {server} / {client} / {transparent}
+(config)#vtp version {dont need}
+(config)#vtp password {password}
+```
 ---
 ### Router & Switch Config
 #### SNMP Read Only
