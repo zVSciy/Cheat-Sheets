@@ -249,9 +249,13 @@ no ip access-list extended {ACL-Name}
 (config)#port-channel load-balance [dst/src/dst-src]-ip
 
 (config)#interface range {Interface} - {Interface}
-(config)#channel-protocol {Protocol} lacp
-(config)#switchport mode {Mode}
-(config)#channel-group {Gruppe} mode active
+(config-if)#channel-protocol {Protocol} lacp
+(config-if)#channel-group {Gruppe} mode active
+(config)#interface port-channel {Gruppe}
+(config-if)#switchport trunk allowed vlan {VLANID,VLANID,VLANID}
+(config-if)#switchport trunk native vlan {VLANID}
+(config-if)#switchport trunk encapsulation dot1q
+(config-if)#switchport mode {Mode}
 ```
 
 ## Switch-Config
