@@ -154,7 +154,7 @@ add disabled=no instance=rip-instance-1 interfaces=all
 ### NAT
 #### NAT/PAT
 ```mikrotik
-/ip firewall nat add chain=srcnat src-address=10.0.10.128/26 action=masquerade out-interface=ether3
+/ip firewall nat add chain=srcnat src-address={alle NWs die ins Internet dürfen} action=masquerade out-interface=ether3
 ```
 #### portforwarding
 ```mikrotik
