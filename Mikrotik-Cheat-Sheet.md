@@ -137,6 +137,20 @@ add disabled=no instance=rip-instance-1 interfaces=all
 /routing rip interface
 ```
 ---
+### OSPF Routing
+#### create OSPF instance
+```mikrotik
+/routing ospf instanceadd disabled=no name="OSPF" originate-default=always {gibt die default Route weiter}
+```
+#### define area
+```mikrotik
+/routing ospf area add disabled=no instance="OSPF " name="Area 0"
+```
+#### add network to OSPF
+```mikrotik
+/routing ospf interface-template add area="Area 0" disabled=no interfaces={interface where the nw is} networks={NW you wanna add}
+```
+---
 ### NAT
 #### NAT/PAT
 ```mikrotik
