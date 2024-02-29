@@ -114,12 +114,24 @@ You can also use words, to fit your writing style more closely[^note].
 
 
 ### Task List 
+
+```
+- [x] Fish Cheat Sheet
+- [ ] Listen to teacher
+- [ ] Sleep
+```
 - [x] Fish Cheat Sheet
 - [ ] Listen to teacher
 - [ ] Sleep 
 
 ### Emoji 
+```
+That is so funny! :joy: 
+```
 That is so funny! :joy: 
 
 ### Highlight 
- I need to highlight these ==very important words==
+```
+ I need to highlight that ==word==
+```
+ I need to highlight that ==word==
