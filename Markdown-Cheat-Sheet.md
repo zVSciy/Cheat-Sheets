@@ -132,6 +132,6 @@ That is so funny! :joy:
 
 ### Highlight 
 ```
- I need to highlight that ==word==
+ I need to highlight that <mark>word</mark>
 ```
- I need to highlight that ==word==
+ I need to highlight that <mark>word</mark>
