@@ -1,8 +1,27 @@
 # Markdown Cheatsheet 1.0
 
 ## Table of Contents
-- **[Basis Syntax](#basis)** 
-- **[Extended Syntax](#navigation)**
+- [Basis Syntax](#basis-syntax)
+  - [Heading](#heading)
+  - [Bold](#bold)
+  - [Italic](#italic)
+  - [Blockqoute](#blockqoute)
+  - [Ordered List](#ordered-list)
+  - [Unordered List](#unordered-list)
+  - [Code](#code)
+    - [Markdown supports a few types of Syntax highlighting:](#markdown-supports-a-few-types-of-syntax-highlighting)
+    - [To add the syntax to your code, you only need to add the syntax to your first code block line](#to-add-the-syntax-to-your-code-you-only-need-to-add-the-syntax-to-your-first-code-block-line)
+  - [Horizontal Rule](#horizontal-rule)
+  - [Link](#link)
+  - [Image](#image)
+- [Extended Syntax](#extended-syntax)
+  - [Table](#table)
+  - [Footnote](#footnote)
+  - [Strikethrough](#strikethrough)
+  - [Task List](#task-list)
+  - [Emoji](#emoji)
+  - [Highlight](#highlight)
+
 ---
 
 ## Basis Syntax 
