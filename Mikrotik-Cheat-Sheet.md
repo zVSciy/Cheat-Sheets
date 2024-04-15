@@ -9,7 +9,7 @@
 ---
 ### Grundconfig
 #### Change name
-```mikrotik
+```console
 /system identity set name=MTR-05-10
 ```
 #### SSH Config
