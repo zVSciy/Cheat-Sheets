@@ -257,7 +257,30 @@ no ip access-list extended {ACL-Name}
 (config-if)#switchport trunk encapsulation dot1q
 (config-if)#switchport mode {Mode}
 ```
+---
+### HSRP
 
+Version
+```console
+standby version 2
+```
+Groups
+```console
+standby <group-number> <ip address>
+```
+priority settings
+```console
+standby <group-number> priority <value>
+```
+activate preemtion function
+```console
+standby <group-number> preempt
+```
+WAN interface
+```console
+standby <group-number> track
+```
+---
 ## Switch-Config
 ---
 ### VLAN
