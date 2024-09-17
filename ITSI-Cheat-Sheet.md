@@ -20,4 +20,4 @@ depending on the install, you may need to run `volatility` instead of `vol.py`
 ### List All DLL's
 `vol.py -f  [vmem_file] -profile WinXPSP2x86 dlllist`
 ### Export Dll's Of A Process
-`$ vol.py -f cridex.vmem --profile=WinXPSP2x86 --pid=584 dlldump -D /tmp `
+`vol.py -f cridex.vmem --profile=WinXPSP2x86 --pid=584 dlldump -D /tmp `
