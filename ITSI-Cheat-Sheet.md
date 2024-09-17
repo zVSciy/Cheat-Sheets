@@ -13,3 +13,9 @@ depending on the install, you may need to run `volatility` instead of `vol.py`
 `vol.py -f cridex.vmem --profile=WinXPSP3x86 pslist`
 ### Get Full Process List With Hidden Processes
 `$ vol.py -f cridex.vmem --profile=WinXPSP2x86 psxview`
+### View Network Connections
+`vol.py -f  [vmem_file] -profile WinXPSP2x86 netscan`
+### Find malware in deirectory
+`vol.py -f  [vmem_file] -profile WinXPSP2x86 malfind -D [directory]`
+### List All DLL's
+`vol.py -f  [vmem_file] -profile WinXPSP2x86 dlllist`
