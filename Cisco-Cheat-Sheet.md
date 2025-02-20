@@ -99,19 +99,19 @@
 ### NAT Config
 #### NAT Inside Interface
 ```console
-config#interfacce [Inside Interface]
+config#interface [Inside Interface]
 (config-if)#ip nat inside
 (config-if)#no shutdown
 ```
 #### NAT Outside Interface
 ```console
-config#interfacce [Outside Interface]
+config#interface [Outside Interface]
 (config-if)#ip nat outside
 (config-if)#no shutdown
 ```
 #### NAT Outside Interface bei RIP und OSBF
 ```console
-config#interfacce [Outside Interface]
+config#interface [Outside Interface]
 (config-if)#ip nat outside
 (config-if)#no shutdown
 (config-if)#passive interface
