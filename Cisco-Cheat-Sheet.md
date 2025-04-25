@@ -266,7 +266,7 @@ standby version 2
 ```
 Groups
 ```console
-standby <group-number> <ip address>
+standby <group-number> ip <ip address>
 ```
 priority settings
 ```console
