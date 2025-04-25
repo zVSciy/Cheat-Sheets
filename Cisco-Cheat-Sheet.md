@@ -311,6 +311,11 @@ standby <group-number> track
 (config-if)#switchport trunk native vlan [VLAN-ID]
 (config-if)#switchport trunk allowed vlan [VLAN-List] //Switchporttrunk allowed vlan 10,20,30,99
 ```
+Validation of port status
+```console
+show interfaces Po1 switchport
+```
+
 ---
 ### STP Spanning-Tree
 #### Interface Spanning-Tree
