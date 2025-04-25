@@ -306,8 +306,8 @@ standby <group-number> track
 #### VLAN Interface(Trunk) zuweisen
 ```console
 (config)#interface [InterfaceID]
-(config-if)#switchport mode trunk
 (config-if)#switchport trunk encapsulation dot1q
+(config-if)#switchport mode trunk
 (config-if)#switchport trunk native vlan [VLAN-ID]
 (config-if)#switchport trunk allowed vlan [VLAN-List] //Switchporttrunk allowed vlan 10,20,30,99
 ```
