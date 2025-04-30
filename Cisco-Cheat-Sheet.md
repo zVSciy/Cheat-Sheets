@@ -174,6 +174,14 @@ config#interface [Outside Interface]
 (config)#router rip
 (config-router)#default-information originate 
 ```
+#### Redistribute OSPF into RIP
+
+```bash
+router rip
+ version 2
+ no auto-summary
+ redistribute ospf 1 metric 2
+```
 ---
 ### OSPF Routing
 #### OSPF enable
@@ -192,6 +200,109 @@ config#interface [Outside Interface]
 (config-router)#network NetzwerkIP Wildcardmask area [Zahl] z.B
 (config-router)#network 192.168.10.0 0.0.0.255 area 0
 ```
+
+#### Redistribute RIP into OSPF
+```bash
+router ospf 1
+ redistribute rip subnets
+```
+### Basic BGP Configuration
+
+```bash
+router bgp 200
+ bgp log-neighbor-changes
+ neighbor 10.10.10.10 remote-as 300
+ network 203.0.113.0 mask 255.255.255.0
+ aggregate-address 203.0.0.0 254.0.0.0 as-set summary-only
+ no auto-summary
+```
+#### Local Pref/ Next Hop Self
+Wichtig für IBGP
+```bash
+router bgp 100
+ no synchronization
+ bgp default local-preference 150
+ bgp log-neighbor-changes
+ neighbor 7.0.0.254 remote-as 100
+ neighbor 7.0.0.254 next-hop-self
+ no auto-summary
+ ```
+
+ #### Metric
+ ```bash
+ router bgp 100
+ no synchronization
+ bgp log-neighbor-changes
+ network 105.0.1.0 mask 255.255.255.0
+ neighbor 5.0.0.253 remote-as 100
+ neighbor 5.0.0.253 route-map SETMEDOUT out
+ neighbor 6.0.0.253 remote-as 300
+ neighbor 6.0.0.253 route-map SETMEDOUT6 out
+ neighbor 8.0.0.254 remote-as 100
+ no auto-summary
+
+route-map SETMEDOUT permit 10
+ set metric 50
+route-map SETMEDOUT6 permit 20
+ set metric 70
+ ```
+
+ #### Weight
+ ```bash
+ router bgp 200
+ neighbor 2.0.0.254 remote-as 100
+ neighbor 2.0.0.254 weight 200
+ neighbor 4.0.0.253 remote-as 300
+ neighbor 4.0.0.253 weight 250
+ no auto-summary
+```
+Restart the BGP routes
+```bash
+ do clear ip bgp * soft
+ ```
+
+#### Equal Load Balancing
+```bash
+router bgp 100
+ maximum-paths ibgp 2
+ no auto-summary
+ ```
+#### Unequal Load Balancing
+change to 1:4 for 6.0.0.0 and 3.0.0.0
+
+for network 6.0.0.0 on f0/1 set bandwitdth 10000
+for network 3.0.0.0 on f2/0 set bandwitdth 40000
+
+```bash
+int f0/1
+bandwidth 10000
+int f2/0
+bandwidth 40000
+```
+use bandwith in bgp config:
+
+```bash
+router bgp 300
+ bgp dmzlink-bw
+ neighbor 3.0.0.254 remote-as 100
+ neighbor 3.0.0.254 dmzlink-bw
+ neighbor 6.0.0.254 remote-as 100
+ neighbor 6.0.0.254 dmzlink-bw
+ maximum-paths 2
+ ```
+
+#### Default Route
+```bash
+ip route 0.0.0.0 0.0.0.0 10.10.10.2
+network 0.0.0.0
+```
+
+#### Test BGP
+```bash
+show bgp
+show ip router
+```
+
 ---
 ### Access Listen - Standard
 #### Access List erstellen
@@ -279,6 +390,22 @@ standby <group-number> preempt
 WAN interface
 ```console
 standby <group-number> track
+```
+### VRRP
+
+Groups
+```console
+vrrp <group-number> ip <ip address>
+```
+priority settings
+```console
+vrrp <group-number> priority <value>
+```
+
+Tracking interface
+```console
+track <track id> interface <WAN interface> line-protocol
+vrrp <group-number> track <track id> decrement <value>
 ```
 ---
 ## Switch-Config
