@@ -1,0 +1,14 @@
+[myself]
+workstation 
+[myself:vars]
+ansible_connection=local
+
+[intranetweb]
+mhrhel.lab.example.com
+mh2.lab.example.com
+
+[internetweb]
+
+[web:children]
+intranetweb
+internetweb

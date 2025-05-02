@@ -1,0 +1,7 @@
+This is the system {{ ansible_facts['fqdn'] }}.
+This is a {{ ansible_facts['distribution'] }} version {{ ansible_facts['distribution_version'] }} system.
+{% if ansible_facts['fqdn'] in groups['myself'] %}
+As a workstation user, you need to submit a ticket to receive help with any issues.
+{% elif ansible_facts['fqdn'] in groups['intranetweb'] %}
+Please report issues to: {{ system_owner }}.
+{% endif %}

@@ -1,0 +1,72 @@
+---
+- name: Web application server is deployed
+  hosts: mh2.lab.example.com
+  vars:
+    packages:
+      - nginx
+      - php-fpm
+      - firewalld
+    web_service: nginx
+    app_service: php-fpm
+    firewall_service: firewalld
+    firewall_service_rules:
+      - http
+    web_config_src: files/nginx.conf.standard
+    web_config_dst: /etc/nginx/nginx.conf
+    app_config_src: files/php-fpm.conf.standard
+    app_config_dst: /etc/php-fpm.conf
+
+  tasks:
+    - name: Stoppe den Service
+      ansible.builtin.service:
+        name: httpd
+        state: stopped
+    - name: "{{ packages }} packages are installed"
+      ansible.builtin.dnf:
+        name: "{{ packages }}"
+        state: present
+
+    - name: Make sure services are running
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop:
+        - "{{ web_service }}"
+        - "{{ app_service }}"
+        - "{{ firewall_service }}"
+      ignore_errors: true
+    - name: Allow services through the firewall
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        state: enabled
+        immediate: true
+        permanent: true
+      loop: "{{ firewall_service_rules }}"
+
+    - name: The {{ web_config_dst }} file has been deployed
+      ansible.builtin.copy:
+        src: "{{ web_config_src }}"
+        dest: "{{ web_config_dst }}"
+        mode: "0644"
+      notify:
+        - restart web service
+
+    - name: The {{ app_config_dst }} file has been deployed
+      ansible.builtin.copy:
+        src: "{{ app_config_src }}"
+        dest: "{{ app_config_dst }}"
+        mode: "0644"
+      notify:
+        - restart app service
+
+  handlers:
+    - name: restart web service
+      ansible.builtin.service:
+        name: "{{ web_service }}"
+        state: restarted
+
+    - name: restart app service
+      ansible.builtin.service:
+        name: "{{ app_service }}"
+        state: restarted

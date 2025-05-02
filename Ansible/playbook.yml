@@ -1,0 +1,177 @@
+---
+- name: Enable intranet services
+  hosts: mhrhel.lab.example.com
+  become: true
+  vars:
+    web_pkg: httpd
+    firewall_pkg: firewalld
+    web_service: httpd
+    firewall_service: firewalld
+    rule: http
+    db_package: mariadb-server
+    db_service: mariadb
+    system_owner: "Elias Pinter"
+  tasks:
+    - name: Latest version of httpd and firewalld installed
+      ansible.builtin.dnf:
+        name:
+          - "{{ web_pkg }}"
+          - "{{ firewall_pkg }}"
+          - "http"
+        state: latest
+      ignore_errors: true
+    - name: Install {{ db_package }} package
+      ansible.builtin.dnf:
+        name: "{{ db_package }}"
+        state: present
+    - name: Test html page is installed
+      ansible.builtin.copy:
+        content: "Welcome to the example.com intranet!\n"
+        dest: /var/www/html/index.html
+    - name: Erstelle Benutzer "devops"
+      ansible.builtin.user:
+        name: devops
+        comment: "Devops"
+        shell: /bin/bash
+        groups: wheel
+        create_home: yes
+        state: present
+    - name: The {{ firewall_service }} service is started and enabled
+      ansible.builtin.service:
+        name: "{{ firewall_service }}"
+        enabled: true
+        state: started
+
+    - name: The {{ web_service }} service is started and enabled
+      ansible.builtin.service:
+        name: "{{ web_service }}"
+        enabled: true
+        state: started
+
+    - name: The firewall port for {{ rule }} is open
+      ansible.posix.firewalld:
+        service: "{{ rule }}"
+        permanent: true
+        immediate: true
+        state: enabled
+    - name: Attempt to set up a webserver
+      block:
+        - name: Install {{ web_package }} package
+          ansible.builtin.dnf:
+            name: "{{ web_pkg }}"
+            state: present
+      rescue:
+        - name: Install {{ db_package }} package
+          ansible.builtin.dnf:
+            name: "{{ db_package }}"
+            state: present
+      always:
+        - name: Start {{ db_service }} service
+          ansible.builtin.service:
+            name: "{{ db_service }}"
+            state: started 
+    - name: Fetch the /var/log/secure log file from managed hosts
+      ansible.builtin.fetch:
+        src: /var/log/secure
+        dest: secure-backups
+
+    - name: Ensure the /home/devops/files directory exists
+      ansible.builtin.file:
+        path: /home/devops/files
+        state: directory
+        owner: devops
+        group: devops
+        mode: 0775
+        setype: _default
+
+    - name: Add a single line of text to a file
+      ansible.builtin.lineinfile:
+        path: /home/devops/files/users.txt
+        line: This line was added by the lineinfile module
+        state: present
+        create: true
+        owner: devops
+        group: devops
+        mode: 0664
+    - name: Copy a file to managed hosts and set ownership and permissions
+      ansible.builtin.copy:
+        src: index.html
+        dest: /home/devops/files/
+        owner: devops
+        group: devops
+        mode: 0664
+
+    - name: Add a block of text to an existing file
+      ansible.builtin.blockinfile:
+        path: /home/devops/files/users.txt
+        block: |
+          This block of text consists of two lines.
+          They have been added by the blockinfile module.
+        state: present
+    - name: Configure /etc/motd
+      ansible.builtin.template:
+        src: motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644
+
+- name: Copy hosts file to managed hosts
+  hosts:
+    - mh2.lab.example.com
+    - mhrhel.lab.example.com
+  become: true
+  tasks:
+    - name: Copy /etc/hosts to managed hosts
+      ansible.builtin.copy:
+        src: /etc/hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Display specific facts
+      ansible.builtin.debug:
+        msg: >-
+          Host '{{ ansible_facts["fqdn"] }}' with Python
+          version '{{ ansible_facts["python_version"] }}'
+          has '{{ ansible_facts["processor_count"] }}'
+          processors and '{{ ansible_facts["memtotal_mb"] }}'
+          MiB of total system memory.
+    - name: Display ansible_local variable
+      ansible.builtin.debug:
+        msg: >-
+          The ansible_local variable is set to
+          '{{ ansible_facts["ansible_local"] }}'
+    - name: Display facts
+      ansible.builtin.debug:
+        var: ansible_facts
+- name: Test intranet web server
+  hosts: mh2.lab.example.com
+  become: true
+  vars:
+    mariadb_packages:
+      - mariadb-server
+      - python3-PyMySQL
+  tasks:
+    - name: Connect to intranet web server
+      ansible.builtin.uri:
+        url: http://mhrhel.lab.example.com
+        return_content: true
+        status_code: 200
+      register: web_response
+
+    - name: Ausgabe der Website
+      ansible.builtin.debug:
+        var: web_response.content
+
+    - name: MariaDB packages are installed
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ mariadb_packages }}"
+      when: ansible_facts['distribution'] == "RedHat"
+    - name: Start MariaDB service
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: true
