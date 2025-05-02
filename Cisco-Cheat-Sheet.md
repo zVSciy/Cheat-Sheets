@@ -176,7 +176,7 @@ config#interface [Outside Interface]
 ```
 #### Redistribute OSPF into RIP
 
-```bash
+```console
 router rip
  version 2
  no auto-summary
@@ -202,13 +202,13 @@ router rip
 ```
 
 #### Redistribute RIP into OSPF
-```bash
+```console
 router ospf 1
  redistribute rip subnets
 ```
 ### Basic BGP Configuration
 
-```bash
+```console
 router bgp 200
  bgp log-neighbor-changes
  neighbor 10.10.10.10 remote-as 300
@@ -218,7 +218,7 @@ router bgp 200
 ```
 #### Local Pref/ Next Hop Self
 Wichtig für IBGP
-```bash
+```console
 router bgp 100
  no synchronization
  bgp default local-preference 150
@@ -229,7 +229,7 @@ router bgp 100
  ```
 
  #### Metric
- ```bash
+ ```console
  router bgp 100
  no synchronization
  bgp log-neighbor-changes
@@ -248,7 +248,7 @@ route-map SETMEDOUT6 permit 20
  ```
 
  #### Weight
- ```bash
+ ```console
  router bgp 200
  neighbor 2.0.0.254 remote-as 100
  neighbor 2.0.0.254 weight 200
@@ -257,12 +257,12 @@ route-map SETMEDOUT6 permit 20
  no auto-summary
 ```
 Restart the BGP routes
-```bash
+```console
  do clear ip bgp * soft
  ```
 
 #### Equal Load Balancing
-```bash
+```console
 router bgp 100
  maximum-paths ibgp 2
  no auto-summary
@@ -273,7 +273,7 @@ change to 1:4 for 6.0.0.0 and 3.0.0.0
 for network 6.0.0.0 on f0/1 set bandwitdth 10000
 for network 3.0.0.0 on f2/0 set bandwitdth 40000
 
-```bash
+```console
 int f0/1
 bandwidth 10000
 int f2/0
@@ -281,7 +281,7 @@ bandwidth 40000
 ```
 use bandwith in bgp config:
 
-```bash
+```console
 router bgp 300
  bgp dmzlink-bw
  neighbor 3.0.0.254 remote-as 100
@@ -292,13 +292,13 @@ router bgp 300
  ```
 
 #### Default Route
-```bash
+```console
 ip route 0.0.0.0 0.0.0.0 10.10.10.2
 network 0.0.0.0
 ```
 
 #### Test BGP
-```bash
+```console
 show bgp
 show ip router
 ```

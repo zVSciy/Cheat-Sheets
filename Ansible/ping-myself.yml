@@ -1,0 +1,7 @@
+---
+- name: Validate inventory hosts
+  hosts: myself
+  gather_facts: no
+  tasks:
+    - name: Ping myself
+      ansible.builtin.ping:

@@ -1,0 +1,19 @@
+---
+  - name: Install the firewall
+    ansible.builtin.dnf:
+      name: "{{ firewall_pkg }}"
+      state: latest
+
+  - name: Start the firewall
+    ansible.builtin.service:
+      name: "{{ firewall_svc }}"
+      enabled: true
+      state: started
+
+  - name: Open the port for {{ rule }}
+    ansible.posix.firewalld:
+      service: "{{ item }}"
+      immediate: true
+      permanent: true
+      state: enabled
+    loop: "{{ rule }}"

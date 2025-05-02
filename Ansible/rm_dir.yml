@@ -1,0 +1,8 @@
+---
+- name: Use the file module to remove a directory
+  hosts: servers
+  tasks:
+    - name: Remove a directory from managed hosts
+      ansible.builtin.file:
+        path: /home/devops/files
+        state: absent

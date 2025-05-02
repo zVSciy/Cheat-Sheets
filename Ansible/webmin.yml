@@ -1,0 +1,29 @@
+- name: Install Webmin
+  hosts: mh2.lab.example.com
+  become: true
+  tasks:
+    - name: Add Webmin repository
+      ansible.builtin.yum_repository:
+        name: webmin
+        description: Webmin Distribution Neutral
+        baseurl: http://download.webmin.com/download/yum
+        enabled: yes
+        gpgcheck: yes
+        gpgkey: http://www.webmin.com/jcameron-key.asc
+
+    - name: Install Webmin package
+      ansible.builtin.dnf:
+        name: webmin
+        state: present
+
+    - name: Ensure Webmin service is started and enabled
+      ansible.builtin.service:
+        name: webmin
+        state: started
+        enabled: true
+    - name: Allow Webmin port in firewall
+      ansible.posix.firewalld:
+        port: 10000/tcp
+        permanent: true
+        state: enabled
+        immediate: true
