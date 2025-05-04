@@ -178,7 +178,8 @@ add address=10.10.10.5/24 interface=VLAN2
 ```
 ---
 
-### Wireguard VPN
+### VPN
+#### Wireguard VPN
 [wiki](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard#WireGuard-SitetoSiteWireGuardtunnel)
 The configuration has to be done twice on each peer, with the public key of the other peer:
 ```mikrotik
@@ -197,4 +198,73 @@ s2swireguard public-key="fUYTpQD1MPhNEjWMR/iMbJ/hjrhegP5JtZAUiUrplx8=" #use publ
 ```
 
 
+#### GRE Tunnel
+[wiki](https://help.mikrotik.com/docs/spaces/ROS/pages/24805531/GRE) 
 
+The first step is to create GRE tunnels. A router on site 1:
+```console
+/interface gre add name=myGre remote-address=192.168.90.1 local-address=192.168.80.1
+/ip address add address=172.16.1.1/30 interface=myGre
+/ip route add dst-address=10.1.202.0/24 gateway=172.16.1.2
+```
+A router on site 2:
+```console
+/interface gre add name=myGre remote-address=192.168.80.1 local-address=192.168.90.1
+/ip address add address=172.16.1.2/30 interface=myGre
+/ip route add dst-address=10.1.101.0/24 gateway=172.16.1.1
+```
+
+#### IPSec Tunnel mit GRE Tunnel
+[wiki](https://help.mikrotik.com/docs/spaces/ROS/pages/11993097/IPsec#IPsec-SitetoSiteIPsec(IKEv1)tunnel)
+
+Seite 1
+```console
+/interface bridge 
+add name=loopback
+/ip address
+add address=192.168.99.1 interface=loopback
+/ip ipsec profile
+add dh-group=ecp256,modp2048,modp1024 enc-algorithm=aes-256,aes-192,aes-128 name=ike2
+/ip ipsec proposal
+add auth-algorithms=null enc-algorithms=aes-128-gcm name=ike2-gre pfs-group=none
+/ip ipsec mode-config
+add address=192.168.99.2 address-prefix-length=32 name=ike2-gre split-include=192.168.99.1/32 system-dns=no
+/ip ipsec policy group
+add name=ike2-gre
+/ip ipsec policy
+add dst-address=192.168.99.2/32 group=ike2-gre proposal=ike2-gre src-address=192.168.99.1/32 template=yes
+/ip ipsec peer
+add exchange-mode=ike2 name=ike2 passive=yes profile=ike2
+/ip ipsec identity
+add generate-policy=port-strict mode-config=ike2-gre peer=ike2 policy-template-group=ike2-gre secret=test
+/interface gre
+add local-address=192.168.99.1 name=gre-tunnel1 remote-address=192.168.99.2
+/ip address
+add address=172.16.1.1/30 interface=gre-tunnel1
+/ip route
+add dst-network=10.1.202.0/24 gateway=172.16.1.2
+```
+
+Seite 2
+```console
+/ip ipsec profile
+add dh-group=ecp256 enc-algorithm=aes-256 name=ike2-gre
+/ip ipsec proposal
+add auth-algorithms=null enc-algorithms=aes-128-gcm name=ike2-gre pfs-group=none
+/ip ipsec mode-config
+add name=ike2-gre responder=no
+/ip ipsec policy group
+add name=ike2-gre
+/ip ipsec policy
+add dst-address=192.168.99.1/32 group=ike2-gre proposal=ike2-gre src-address=192.168.99.2/32 template=yes
+/ip ipsec peer
+add address=n.mynetname.net exchange-mode=ike2 name=p1.ez profile=ike2-gre
+/ip ipsec identity
+add generate-policy=port-strict mode-config=ike2-gre peer=p1.ez policy-template-group=ike2-gre secret=test
+/interface gre
+add local-address=192.168.99.2 name=gre-tunnel1 remote-address=192.168.99.1
+/ip address
+add address=172.16.1.2/30 interface=gre-tunnel1
+/ip route
+add dst-network=10.1.101.0/24 gateway=172.16.1.1
+```
