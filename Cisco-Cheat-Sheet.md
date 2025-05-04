@@ -174,6 +174,12 @@ config#interface [Outside Interface]
 (config)#router rip
 (config-router)#default-information originate 
 ```
+
+#### Passive Interface
+```console
+(config-router)#passive-interface g0/0
+```
+
 #### Redistribute OSPF into RIP
 
 ```console
@@ -200,7 +206,16 @@ router rip
 (config-router)#network NetzwerkIP Wildcardmask area [Zahl] z.B
 (config-router)#network 192.168.10.0 0.0.0.255 area 0
 ```
+#### Passiv Interface
+```console
+(config-router)#passive-interface g0/0
+```
 
+#### Von Broadcast zu Point-zu-Point wechseln
+```console
+interface GigabitEthernet 0/0/0
+ip ospf network point-to-point
+```
 #### Redistribute RIP into OSPF
 ```console
 router ospf 1
