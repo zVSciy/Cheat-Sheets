@@ -178,5 +178,23 @@ add address=10.10.10.5/24 interface=VLAN2
 ```
 ---
 
+### Wireguard VPN
+[wiki](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard#WireGuard-SitetoSiteWireGuardtunnel)
+The configuration has to be done twice on each peer, with the public key of the other peer:
+```mikrotik
+/interface/wireguard> add listen-port=13231 name=s2swireguard #add the wireguard interface used in this connection, also creates public/private key for the interface
+/interface/wireguard> /ip/address/add address=10.255.255.1/30 interface=s2swireguard #adding a ip adress that is used in the vpn, it should be a /30 address for s2s, /24 or less for road warrior
+/interface/wireguard> /ip/route/add dst-address=192.168.100.0/24 gateway=s2swireguard #this is only for s2s
+
+/interface/wireguard> print #print the public key that is used for connecting the peer.
+	Flags: X - disabled; R - running 
+	 0  R name="s2swireguard" mtu=1420 listen-port=13231 private-key="+B15iyywPG9iiRpfpAt4k9UU2TnFQvwzzqGlnt0P6E8=" 
+	      public-key="rTWb8sh/2sANNstZYnjvEKyUUivMBSaGBjkmy7zvzx8=" 
+
+/interface/wireguard> peers/add allowed-address=10.255.255.2/32,192.168.100.0/24 endpoint-address=192.168.75.129 endpoint-port=13231 interface=
+s2swireguard public-key="fUYTpQD1MPhNEjWMR/iMbJ/hjrhegP5JtZAUiUrplx8=" #use public key of the peer, in s2s obtained with the /interface/wireguard/print command, when using road warrior check documentation of the used app. When using s2s only the peer address is used in the allowed addresses and endpoint address is not used
+
+```
+
 
 
