@@ -458,7 +458,16 @@ Validation of port status
 ```console
 show interfaces Po1 switchport
 ```
-
+### VLAN Layer 3 Switch Routing
+#### VLAN Interfaces erstellen
+```console
+(config)#interface vlan 50
+(config-if)#ip address [IP] [Subnet]
+```
+#### Routing einschalten
+```console
+(config)#ip routing
+```
 ---
 ### STP Spanning-Tree
 #### Interface Spanning-Tree
