@@ -446,6 +446,7 @@ vrrp <group-number> track <track id> decrement <value>
 (config-if)#switchport access vlan [VLAN-ID]
 ```
 #### VLAN Interface(Trunk) zuweisen
+> Note: The need for "encapsulation dot1q" is dependend on the device and may not exist, Cisco uses this by default 
 ```console
 (config)#interface [InterfaceID]
 (config-if)#switchport trunk encapsulation dot1q
