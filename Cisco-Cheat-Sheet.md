@@ -1,12 +1,107 @@
 # Cisco Cheat Sheet v1.02
 ---
 ## Table of Contents
-- **[Grundconfig](#grundconfig)**
-- **[Shows](#shows)**
-- **[Router Config](#router-config)**
-- **[Switch Config](#switch-config)**
-- **[Same Config](#same-config)**
----
+- [Cisco Cheat Sheet v1.02](#cisco-cheat-sheet-v102)
+  - [Table of Contents](#table-of-contents)
+    - [Grundconfig](#grundconfig)
+      - [Hostname](#hostname)
+      - [Passwort](#passwort)
+      - [Konsolen Passwort](#konsolen-passwort)
+      - [SSH Passwort](#ssh-passwort)
+      - [Passwörter Encrypten](#passwörter-encrypten)
+      - [Interface - Static Config](#interface---static-config)
+      - [Interface - DHCP Config](#interface---dhcp-config)
+    - [Shows](#shows)
+      - [CPU Auslastung](#cpu-auslastung)
+      - [Routen anzeigen](#routen-anzeigen)
+      - [VLAN Info](#vlan-info)
+      - [NAT Info](#nat-info)
+      - [ACL Info](#acl-info)
+      - [Mac Address Table](#mac-address-table)
+      - [Port-channel](#port-channel)
+      - [Ether-channel summary](#ether-channel-summary)
+      - [Etherchannel port-channel](#etherchannel-port-channel)
+      - [show interface etherchannel](#show-interface-etherchannel)
+      - [VTP](#vtp)
+  - [Router-Config](#router-config)
+    - [NAT Config](#nat-config)
+      - [NAT Inside Interface](#nat-inside-interface)
+      - [NAT Outside Interface](#nat-outside-interface)
+      - [NAT Outside Interface bei RIP und OSBF](#nat-outside-interface-bei-rip-und-osbf)
+      - [NAT Access-List](#nat-access-list)
+      - [NAT enable](#nat-enable)
+      - [Portforwarding Static](#portforwarding-static)
+      - [Portforwarding Dynamic](#portforwarding-dynamic)
+    - [DHCP](#dhcp)
+      - [DHCP Pool](#dhcp-pool)
+      - [DHCP-Server](#dhcp-server)
+    - [Statisches Routing](#statisches-routing)
+      - [Static Route](#static-route)
+      - [Default Route](#default-route)
+    - [RIP Routing](#rip-routing)
+      - [RIP enable](#rip-enable)
+      - [NW zu RIP hinzufügen](#nw-zu-rip-hinzufügen)
+      - [Default Routen weitergeben](#default-routen-weitergeben)
+      - [Default Routen weitergeben (IPv6 RIP)](#default-routen-weitergeben-ipv6-rip)
+      - [Passive Interface](#passive-interface)
+      - [Redistribute OSPF into RIP](#redistribute-ospf-into-rip)
+    - [OSPF Routing](#ospf-routing)
+      - [OSPF enable](#ospf-enable)
+      - [OSPFv3](#ospfv3)
+      - [Default Routen weitergeben](#default-routen-weitergeben-1)
+      - [NW zu OSPF hinzufügen](#nw-zu-ospf-hinzufügen)
+      - [Passiv Interface](#passiv-interface)
+      - [Von Broadcast zu Point-zu-Point wechseln](#von-broadcast-zu-point-zu-point-wechseln)
+      - [Redistribute RIP into OSPF](#redistribute-rip-into-ospf)
+    - [Basic BGP Configuration](#basic-bgp-configuration)
+      - [Local Pref/ Next Hop Self](#local-pref-next-hop-self)
+      - [Metric](#metric)
+      - [Weight](#weight)
+      - [Equal Load Balancing](#equal-load-balancing)
+      - [Unequal Load Balancing](#unequal-load-balancing)
+      - [Default Route](#default-route-1)
+      - [Test BGP](#test-bgp)
+    - [Access Listen - Standard](#access-listen---standard)
+      - [Access List erstellen](#access-list-erstellen)
+      - [Access List Einträge hinzufügen](#access-list-einträge-hinzufügen)
+      - [Access Lists Matches clearen](#access-lists-matches-clearen)
+      - [Access Lists Interface zuweisen](#access-lists-interface-zuweisen)
+    - [Access Listen - Extended](#access-listen---extended)
+    - [Access List erstellen und Einträge hinzufügen](#access-list-erstellen-und-einträge-hinzufügen)
+    - [Access List auf Interface zuweisen](#access-list-auf-interface-zuweisen)
+    - [Acces List löschen](#acces-list-löschen)
+    - [VLAN](#vlan)
+      - [Subinterfaces](#subinterfaces)
+    - [Etherchannel](#etherchannel)
+      - [Portchannel](#portchannel)
+    - [HSRP](#hsrp)
+    - [VRRP](#vrrp)
+  - [Switch-Config](#switch-config)
+    - [VLAN](#vlan-1)
+      - [VLAN erstellen](#vlan-erstellen)
+      - [Ein VLAN löschen](#ein-vlan-löschen)
+      - [Alles VLANs löschen](#alles-vlans-löschen)
+      - [VLAN Interface(Access) zusweisen](#vlan-interfaceaccess-zusweisen)
+      - [VLAN Interface(Trunk) zuweisen](#vlan-interfacetrunk-zuweisen)
+    - [VLAN Layer 3 Switch Routing](#vlan-layer-3-switch-routing)
+      - [VLAN Interfaces erstellen](#vlan-interfaces-erstellen)
+      - [Routing einschalten](#routing-einschalten)
+    - [STP Spanning-Tree](#stp-spanning-tree)
+      - [Interface Spanning-Tree](#interface-spanning-tree)
+      - [Spanning-Tree aktivieren](#spanning-tree-aktivieren)
+      - [Spanning-Tree deaktivieren](#spanning-tree-deaktivieren)
+      - [Root Guard](#root-guard)
+      - [BPDU Guard](#bpdu-guard)
+      - [BPDU Filtering 1 Port](#bpdu-filtering-1-port)
+      - [BPDU Filtering all Ports](#bpdu-filtering-all-ports)
+      - [Port-Security](#port-security)
+    - [VTP](#vtp-1)
+      - [VTP Modes](#vtp-modes)
+    - [Router \& Switch Config](#router--switch-config)
+      - [SNMP Read Only](#snmp-read-only)
+      - [SNMP Write](#snmp-write)
+
+
 ### Grundconfig
 #### Hostname  
 ```console
@@ -175,6 +270,17 @@ config#interface [Outside Interface]
 (config-router)#default-information originate 
 ```
 
+#### Default Routen weitergeben (IPv6 RIP)
+---
+```console
+(config)#interface [Interface]
+(config-if)#ipv6 rip <NAME> default-information originate
+(config-if)#ipv6 rip <NAME> default-information only
+```
+
+Wenn `originate` gesetzt ist, erhalten die anderen Router alle bekannten Routen des sendenden Routers.
+Mit `only` erhalten die anderen Router nur die Default-Route.
+
 #### Passive Interface
 ```console
 (config-router)#passive-interface g0/0
@@ -194,6 +300,19 @@ router rip
 ```console
 (config)#router ospf 1 oder (config)#router ospfv3
 (config-router)#no auto-summary
+```
+#### OSPFv3
+---
+```console
+(config)#ipv6 router ospf 10
+(config-rtr)#router-id 1.1.1.1
+(config-rtr)#exit
+(config)#interface GigabitEthernet0/0
+(config-if)#ipv6 ospf 10 area 1
+(config)#interface Serial0/0/0
+(config-if)#ipv6 ospf 10 area 0
+(config-if)#end
+#
 ```
 #### Default Routen weitergeben
 ---
